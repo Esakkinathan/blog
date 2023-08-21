@@ -1,0 +1,36 @@
+
+{%extends 'base.html' %}
+{% block content%}
+<br/><br/><br/><br>
+{% if user.is_authenticated %}
+    
+    <h1 class="blogHead">Create Profile</h1>
+    <br/>
+    
+
+    <center>
+        {% if not user.profile.id %}
+            <p style="color: gold;">You must create your profile</p>
+        {%endif%}
+        <br>
+    <div class="postForm">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.media}}
+            {{form.as_p}}
+            <br>
+            <button class = "btn btn-outline-primary">Post</button>
+            <script>
+                // Wrap the specific text in a <span> element
+                const label = document.querySelector('label[for="id_bio"]');
+                const labelText = label.textContent;
+                label.innerHTML = labelText.replace('Add your Bio (required)', 'Add your bio <span style="color:red;" class="highlight">(required)</span>');
+            </script>
+        </form>
+    </div>
+    </center>
+    {% else %}
+        <br><br>
+        <h3 class="blogHead">You are not allowed to this page (sorry....)</h3>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,119 @@
+
+{%extends 'base.html' %}
+{% load static %}
+{% block content%}
+    <br><br><br><br>
+    <h1 class="blogHead">{{post.title}}!!!</h1>
+    <article id="articleContainer">
+        <section id="articleContent">
+          <a style="text-decoration: none;" href="{% url 'show_profile' post.author.profile.id %}">
+            <div class="profileGo">                
+                  <figure class="profileIcon">
+                      {% if post.author.profile.profile_pic %}
+                          <img src="{{post.author.profile.profile_pic.url}}"  class="rounded-circle" alt="Profile picture"  >
+                      {%else%}
+                          <img src="{%static 'myblog/images/profile.png'%}"  class="rounded-circle" alt="Profile picture" >
+                      {%endif%}
+                  </figure>               
+                  <p>{{post.author.first_name}} {{post.author.last_name}}<br>@{{post.author.username}}</p>
+                
+            </div>
+          </a>
+            {{post.body|safe}}
+            <p style="text-align: right; font-size:0.8rem;">{{post.post_date}}</p>
+        </section>
+        <br>
+        {% if post.header_image%}
+            <a href="{{post.header_image.url}}">
+            <figure id="postImg">
+              <img src="{{post.header_image.url}}">
+            </figure>
+            </a>
+        {% endif %}
+        <div class="postcatTag articatTag" style="text-align: center;">
+            <a href="{% url 'category' post.category %}" id="linktocat" >Category : {{post.category}}</a>
+        </div>
+        <div id="postUpdate">
+            {% if user.is_authenticated %}
+                <form action = "{% url 'like_post' post.pk %}" method = "POST">
+                    {% csrf_token %}
+                    {% if liked %}
+
+                        <button type="submit" id="likeBtn" name="post_id" value ="{{post.id}}"><i class="fa-solid fa-heart"  style="color:red;"></i> <span style="color: white;">{{total_likes}}</span></button>
+                    {% else %}
+                        <button type="submit" id="likeBtn" name="post_id" value ="{{post.id}}"><i class="fa-regular fa-heart" style="color:white;"></i><span style="color: white;">{{total_likes}}</span></button>
+
+                    {% endif %}
+                </form>
+                {% if user.id == post.author.id %}
+                    <div class="edup" ><a href="{% url 'update_post' post.pk %}" class="align-bottom" style="color:orange;">edit</a></div>
+                    <div class="edup"><a href="{% url 'delete_post' post.pk %}" class="align-bottom" style="color: red;">Delete</a></div>              
+                {% endif %}
+            {% else %}
+
+                <i id="likeBtn" class="fa-regular fa-heart" style="color:white;"> <span style="color: white;">{{total_likes}}</span></i>
+
+
+            {% endif %}
+        </div>
+      <section class="commentSection">
+          <h3 class="blogHead">Comments..</h3><br>
+          {% if user.is_authenticated %}
+              <div id="commentform">
+                  <form action="{% url 'add_comment' %}" method=POST >
+                      {% csrf_token %}
+                      <input type="text" name="postname" id="postName" class="form-control" placeholder="name" hidden>
+                      <input type="text" name="commentname" id="commentName" class="form-control" placeholder="name" hidden >
+                      <textarea name="commentbody" id="commentArea" class="form-control bg-dark text-light mx-2 " placeholder="Add comment here" required ></textarea>
+                      <br>
+                      <center><input type="submit" id="cmtbtn" class="btn btn-outline-primary btn-sm"value="Submit"></center>
+                      <script>
+                        var name = "{{user.id}}";
+                        var pname= "{{post.pk}}"
+                        document.getElementById("commentName").value=name;
+                        document.getElementById("postName").value=pname;
+                        document.getElementById("author_field").setAttribute('hidden', true);
+                      </script>
+                  </form>
+              </div>
+              <br>
+          {% endif %}
+          {% if not post.comments.all%}
+              <h3 class="blogHead">No comments yet</h3><br>
+          {% else %}
+              {% for comment in post.comments.all%}
+                  <div class="comments">
+                    <a style="text-decoration: none;" href="{% url 'show_profile' comment.name.profile.id %}">
+                      <div class="profileGo">                       
+                          <figure class="profileIcon">
+                              {% if comment.name.profile.profile_pic %}
+                                  <img src="{{comment.name.profile.profile_pic.url}}"  class="rounded-circle" alt="Profile picture" >
+                              {%else%}
+                                  <img src="{%static 'myblog/images/profile.png'%}"  class="rounded-circle" alt="Profile picture">
+                              {%endif%}
+                          </figure>
+                          <p style="font-size:0.9rem;">{{comment.name.first_name}} {{comment.name.last_name}}<br>@{{comment.name.username}}</p>    
+                      </div>
+                    </a>
+                      <div class="commentBody">
+                          {{comment.body}}                         
+                      </div>
+                      <p style="text-align: right; font-size:0.8rem;">{{comment.date_added}}</p>
+                  </div>
+              {% endfor %}
+          {% endif %}
+      </section> 
+    </article>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'add_post' %}">
+    <div class="writeBtn">
+        <i class="fa-regular fa-pen-to-square"></i>
+    </div>
+    </a>
+    {% endif %}
+{% endblock %}
+
+
+
+

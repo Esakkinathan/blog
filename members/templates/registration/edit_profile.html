@@ -1,0 +1,21 @@
+{%extends 'base.html' %}
+{% block title%}Edit Settings{%endblock%}
+{% block content%}
+<br><br><br><br>
+    <h1 class="blogHead">Edit Settings</h1>
+    <br/>
+    <center>
+        <div class="postForm">
+            <form method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <br>
+                <a href = "{% url 'password_change' %}" class="btn btn-outline-warning">Change Password</a>
+                <br/><br>
+                <button class = "btn bbtn btn-outline-primary">Update </button>
+                <br/><br/>
+            </form>
+        </div>
+    </center>
+
+{% endblock %}

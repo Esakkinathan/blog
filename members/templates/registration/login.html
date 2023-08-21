@@ -1,0 +1,22 @@
+{%extends 'base.html' %}
+{% block title%}Login{%endblock%}
+{% block content%}
+{% load socialaccount %}
+    <br><br><br><br>
+    <h1 class="blogHead">Login</h1>
+    <br>
+    <center>
+        <div class="postForm">
+            <form method="POST">
+                {% csrf_token %}                
+                  <p><input type="text" class="form-control bg-dark text-light" name = "username" placeholder="Username" required></p>
+                  <p><input type="password" class="form-control bg-dark text-light" name="password" placeholder="Password" required></p>
+                  <p><button type="submit" class="btn btn-outline-primary">Login</button></p>
+                  <p>Don't have an account <a href="{% url 'register' %}">register</a></p>
+                  <a href="{% provider_login_url 'google'%}?next=/" class="btn btn-info p-2"><p>Continue with  <i class="fa-brands fa-google" style="color: #fafafa;"></i></p></a>
+              </form>
+              
+        </div>
+        <br>
+    </center>
+{% endblock %}
