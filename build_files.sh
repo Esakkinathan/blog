@@ -1,3 +1,6 @@
-
-source virt/bin/activate
-pip list
+python3 -m venv virt
+source "virt/bin/activate"
+pip install --upgrade pip
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py collectstatic
