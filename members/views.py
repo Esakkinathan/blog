@@ -7,6 +7,7 @@ from django.contrib.auth.views import PasswordChangeView
 from myblog.models import Profile,Post
 # Create your views here.
 
+from django.views.decorators.csrf import csrf_exempt
 
 class ShowProfileView(generic.DetailView):
     model = Profile
@@ -21,7 +22,7 @@ class ShowProfileView(generic.DetailView):
         context['page_user'] = page_user
         context['posts'] = posts
         return context
-
+@csrf_exempt
 class UserRegisterView(generic.CreateView):
     form_class = SignUpForm
     template_name = 'registration/register.html'
