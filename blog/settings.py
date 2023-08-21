@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 
 SOCIALACCOUNT_LOGIN_ON_GET=True
 # Application definition
-
+CSRF_TRUSTED_ORIGINS=['https://heyblog-zy6b.zeet-esakkinathan03.zeet.app/' ]
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
