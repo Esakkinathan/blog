@@ -5,3 +5,4 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py collectstatic
 pip list
+export PATH=$PATH:/usr/local/python3/bin
