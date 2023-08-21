@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-lpf^tmr-mqt4315in-zudr3slb7n8#^(@%ajluysg*d*tt-^mh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://heyblog-zy6b.zeet-esakkinathan03.zeet.app/']
 
 SOCIALACCOUNT_LOGIN_ON_GET=True
 # Application definition
