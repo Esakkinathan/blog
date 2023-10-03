@@ -7,8 +7,8 @@
             <h1 class="blogHead">Update Blog</h1>
             <br/><br/>
             <center>
-                <div class="postForm">
-                    <form method="POST">
+                <div class="postForm" >
+                    <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{form.media}}
                         {{form.as_p}}

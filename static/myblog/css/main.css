@@ -28,14 +28,14 @@ body{
 #postContainer{
     display: flex;
     flex-flow: column nowrap;
-    align-items: center; 
-       
+    align-items: center;
+
 }
 .postContent{
     display: block;
     width:80%;
     background-color:var(--boxbackBlack);
-    border-radius: 10px; 
+    border-radius: 10px;
     box-shadow: var(--backshadow);
     margin-bottom: 1rem;
 
@@ -59,7 +59,7 @@ body{
 }
 .postTitleconatiner a:active{
     font-size: 1.3rem;
-    
+
 }
 .postContBody{
     display: flex;
@@ -75,7 +75,7 @@ body{
     font-size: 0.8rem;
     text-align: right;
 }
-.postcatTag{   
+.postcatTag{
     display: block;
     border-bottom: 2px solid var(--white);
     border-top: 2px solid var(--white);
@@ -109,15 +109,15 @@ body{
     grid-template-columns: 1fr 2fr;
     place-items: center left;
     height: 12vh;
-    
+
 }
 .profileIcon > img{
     width: 4rem;
     height: 4rem;
-    margin-left: 10px;   
+    margin-left: 10px;
 }
 .profileGo > p{
-   font-size: 1.2rem;
+   font-size: 1rem;
    text-decoration: none;
    color: var(--white);
 }
@@ -139,7 +139,6 @@ body{
     place-items: center;
     border-top: 2px solid white;
     border-bottom: 2px solid white;
-    margin-bottom: 1rem;
     margin-top: 1rem;
 }
 .edup{
@@ -150,7 +149,7 @@ body{
     text-align: center;
 }
 .edup a{
-    
+
     height: 100%;
     display: block;
 }
@@ -194,14 +193,14 @@ body{
     margin-left: 5%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
+    justify-content: space-between;
 }
 .profileImage > a >img{
     width:13rem;
     height: 13rem;
 }
 .userprofileimgbio{
-    background-color: var(--boxheadBlack);
+    background-color: #162938;
     width: 100%;
     padding: 10px;
     border-radius: 20px;
@@ -219,7 +218,7 @@ body{
     border-radius: 20px;
     box-shadow: var(--backshadow);
 
-    
+
 }
 .profileUrl{
     display: flex;
@@ -255,14 +254,79 @@ body{
     font-size: 2rem;
     text-decoration: underline;
 }
+hr{
+    border: 1px solid var(--white);
+}
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: red;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+.likesContainer{
+    width: 90%;
+    margin-left: 5%;
+    /* display: flex; */
+    /* flex-direction: column; */
+    background-color:rgb(25,25,25) ;
+    padding: 10px;
+    border-radius: 10px;
+    /* border: white solid 2px; */
+    display: none;
+    overflow: auto;
+    z-index: 1;
+}
+.likesContainer > .profileGo{
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    background-color:  rgb(40,40,40);
+    border-radius: 15px;
+}
+.show{
+    display: block;
+}
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
 @media screen and (min-width:992px){
     .postForm{
         width: 70%;
         background-color: var(--boxbackBlack);
         padding: 2rem;
     }
-    .articatTag{   
-         display: block; 
+    .articatTag{
+         display: block;
         width: 80%;
         margin-left: 10%;
         border: 2px solid var(--white);
@@ -287,7 +351,7 @@ body{
         margin-top: 1rem;
     }
     .edup a{
-    
+
         height: 100%;
         display: block;
         margin-top: 10px;
@@ -295,12 +359,12 @@ body{
     .comments{
         width: 80%;
         margin-left: 10%;
-        
+
     }
     #commentform{
         width: 70%;
         margin-left: 15%;
-        
+
     }
     #postImg{
         width: 30%;
@@ -315,7 +379,7 @@ body{
     }
     .profiletab,.profiletabcontent{
         width: 50%;
-    
+
     }
     .profiletab{
         margin-top: 5vh;
@@ -323,12 +387,12 @@ body{
      .left{
         float: left;
     }
-    
+
     .right{
         float:right;
-        
-    }  
-    
+
+    }
+
     .userProfile{
         display: block;
     }

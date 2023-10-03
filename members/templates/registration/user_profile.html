@@ -6,9 +6,10 @@
 {% block content%}
 <br><br><br><br>
 <h1 class="blogHead">Hello {{page_user.user.first_name}} {{page_user.user.last_name}}</h1>
-<article class="userProfile"> 
+<article class="userProfile">
+
     <div class="userprofileimgbio left" class="bg-primary-subtle">
-        {% if user.id == page_user.id %}
+        {% if user.id == page_user.user.id %}
         <div class="dropdown" id="threeDot">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="text-align: right;">
                 <i class="fa-solid fa-grip-vertical"></i>
@@ -31,7 +32,7 @@
                 <p  id="profileBio">{{page_user.bio}}</p>
                 {%endif%}
             </figcaption>
-        </figure> 
+        </figure>
         </center>
     </div>
 <ul class="nav nav-tabs bg-dark text-light justify-content-center profiletab right " id="myTab" role="tablist" >
@@ -48,8 +49,8 @@
         <article class="profileContainer">
               <p> Username: @{{page_user.user.username}}</p>
               <p> Date Joined : {{page_user.user.date_joined|date:"M d, Y"}}</p>
-              <p> Last Login : {{page_user.user.last_login|date:"M d, Y" }}</p>
-              {% if user.id == page_user.id %}
+              <p> Last Login : {{ page_user.user.last_login|date:"F j, Y g:i a" }}</p>
+              {% if user.id == page_user.user.id %}
               <p> Maild-id: @{{page_user.user.email}}</p>
               {%endif%}
               <p class="profileUrl">
@@ -73,9 +74,18 @@
                 {%endif%}
                 </p>
         </article>
+        <br>
+        {% if page_user.id == 1 %}
+        <div class="text-center">
+            <a href="https://eventing-kqos.zeet-esakkinathan03.zeet.app/" target="_blank" class="btn btn-success btn-lg">
+                Click to go events site
+            </a>
+        </div>
+        {%endif%}
     </div>
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <br>
+        {% if posts%}
         <article id="postContainer">
             {% for post in posts %}
                 <section class="postContent">
@@ -84,31 +94,42 @@
                             <strong style="color: white;">
                                 {{post.title}}
                             </strong>
-                        </a>                    
+                        </a>
                     </div>
-                    <div class="postContBody"> 
+                    <div class="postContBody">
                         <div class="postcontents">
-                            {{post.body|slice:200|safe}}
+                            {{ post.body|truncatewords_html:30|safe }}
                         </div>
                         <div class="postcatTag">
                             <a href="{% url 'category' post.category|slugify %}">Category: {{post.category}}</a>
                         </div>
                         <div class="postbyTag">
-                            <p>By: {{post.author.first_name}}  {{post.author.last_name}} {{post.post_date}} </p>
+                            <p>{{post.author.first_name}}  {{post.author.last_name}} {{post.post_date}} </p>
                         </div>
-                    </div>    
+                    </div>
                 </section>
             {%endfor%}
         </article>
+        {% else %}
+        <h3 class="blogHead"> No Post Yet....</h3>
+        {%endif%}
     </div>
 
-</article> 
+</article>
     <br>
+    <div id="snackbar">Please login create blog</div>
     {% if user.is_authenticated %}
     <a href="{% url 'add_post' %}">
     <div class="writeBtn">
         <i class="fa-regular fa-pen-to-square"></i>
     </div>
     </a>
+    {%else%}
+    <script>
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    </script>
     {% endif %}
+
 {% endblock %}

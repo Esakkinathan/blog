@@ -1,10 +1,13 @@
 {%extends 'base.html' %}
 {% block title%}Register{%endblock%}
 {% block content%}
+{% load socialaccount %}
     <br/><br><br><br>
     <h1 class="blogHead">Register</h1>
     <br/>
-    <center>    
+    <center>
+        <a href="{% provider_login_url 'google'%}?next=/" class="btn btn-info p-2"><p>Continue with  <i class="fa-brands fa-google" style="color: #fafafa;"></i></p></a>
+        <br><br>
         <div class="postForm">
         <form method="POST">
             {% csrf_token %}
