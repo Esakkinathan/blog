@@ -14,14 +14,16 @@
       <div class="offcanvas offcanvas-end bg-dark text-light" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header ">
           <h5 class="offcanvas-title navFont" id="offcanvasNavbarLabel">hey Blog!</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body flex-column ">
           <ul class="navbar-nav align-items-center ">
             {% if user.is_authenticated %}
+            {% if user.profile.id %}
             <li class="nav-item">
+
                 <a class="nav-link" href="{% url 'show_profile' user.profile.id %}">
-                  
+
                   <figure>
                     {% if user.profile.profile_pic %}
                         <img src="{{user.profile.profile_pic.url}}"  class="rounded-circle" alt="Profile picture" width="150" height="150" >
@@ -32,6 +34,7 @@
                 </figure>
                 </a>
               </li>
+              {%endif%}
                 <li class="nav-item own-class">
                     <a class="nav-link btn btn-light text-dark" href="{% url 'add_category' %}">Add Category</a>
                 </li>
@@ -39,11 +42,11 @@
                 <li class="nav-item own-class">
                   <a class="nav-link btn btn-info text-dark" href="{% url 'category_list' %}">Category-list</a>
                 </li>
-                  
+
             {% else %}
                 <li class="nav-item mb-3 own-class">
                     <a class="nav-link btn btn-primary text-light" href="{% url 'register' %}">Register</a>
-                </li> 
+                </li>
                 <li class="nav-item own-class">
                     <a class="nav-link btn btn-success text-light" href="{% url 'login' %}">Login</a>
                 </li>
@@ -55,6 +58,21 @@
             </form>
             {% if user.is_authenticated%}
             <ul class="navbar-nav justify-content-end align-items-center mx-3" style="width: 100%; height:10rem;">
+            {% if user.is_superuser %}
+              {% if post_count%}
+              <li class="nav-item own-class">
+                Post Count = {{post_count}}
+              </li>
+              {%endif%}
+              {% if user_count%}
+              <li class="nav-item own-class">
+                User Count = {{user_count}}
+              </li>
+              {%endif%}
+              <li class="nav-item own-class" style="margin-bottom: 10px;">
+                <a class="nav-link btn btn-primary text-light" href="{% url 'admin:index' %}">admin</a>
+              </li>
+              {% endif %}
                 <li class="nav-item own-class">
                     <a class="nav-link btn btn-danger text-light" href="{% url 'logout' %}">Logout</a>
                 </li>

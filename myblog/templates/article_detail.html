@@ -1,22 +1,25 @@
 
 {%extends 'base.html' %}
 {% load static %}
+{% block title%}
+      {{post.title}}
+{% endblock %}
 {% block content%}
     <br><br><br><br>
-    <h1 class="blogHead">{{post.title}}!!!</h1>
+    <h1 class="blogHead">{{post.title}}</h1>
     <article id="articleContainer">
         <section id="articleContent">
           <a style="text-decoration: none;" href="{% url 'show_profile' post.author.profile.id %}">
-            <div class="profileGo">                
+            <div class="profileGo">
                   <figure class="profileIcon">
                       {% if post.author.profile.profile_pic %}
-                          <img src="{{post.author.profile.profile_pic.url}}"  class="rounded-circle" alt="Profile picture"  >
+                          <img src="{{post.author.profile.profile_pic.url}}"  class="rounded-circle" alt="Profile picture" >
                       {%else%}
                           <img src="{%static 'myblog/images/profile.png'%}"  class="rounded-circle" alt="Profile picture" >
                       {%endif%}
-                  </figure>               
+                  </figure>
                   <p>{{post.author.first_name}} {{post.author.last_name}}<br>@{{post.author.username}}</p>
-                
+
             </div>
           </a>
             {{post.body|safe}}
@@ -26,12 +29,12 @@
         {% if post.header_image%}
             <a href="{{post.header_image.url}}">
             <figure id="postImg">
-              <img src="{{post.header_image.url}}">
+              <img src="{{post.header_image.url}}" alt="post_image" loading="lazy">
             </figure>
             </a>
         {% endif %}
         <div class="postcatTag articatTag" style="text-align: center;">
-            <a href="{% url 'category' post.category %}" id="linktocat" >Category : {{post.category}}</a>
+            <a href="{% url 'category' post.category|slugify %}" id="linktocat" >Category : {{post.category}}</a>
         </div>
         <div id="postUpdate">
             {% if user.is_authenticated %}
@@ -47,7 +50,7 @@
                 </form>
                 {% if user.id == post.author.id %}
                     <div class="edup" ><a href="{% url 'update_post' post.pk %}" class="align-bottom" style="color:orange;">edit</a></div>
-                    <div class="edup"><a href="{% url 'delete_post' post.pk %}" class="align-bottom" style="color: red;">Delete</a></div>              
+                    <div class="edup"><a href="{% url 'delete_post' post.pk %}" class="align-bottom" style="color: red;">Delete</a></div>
                 {% endif %}
             {% else %}
 
@@ -56,6 +59,45 @@
 
             {% endif %}
         </div>
+        {%if user.is_authenticated%}
+        <div class="text-center my-3 "><p onclick="showLikers()" class="dropbtns  btn btn-primary btn-sm">See who liked</p></div>
+        <div id="likeSee" class="likesContainer">
+            {%for like_user in post.likes.all%}
+                <a style="text-decoration: none;" href="{% url 'show_profile' like_user.profile.id %}">
+                <div class="profileGo">
+                    <figure class="profileIcon">
+                        {% if like_user.profile.profile_pic %}
+                            <img src="{{like_user.profile.profile_pic.url}}"  class="rounded-circle" alt="Profile picture"  >
+                        {%else%}
+                            <img src="{%static 'myblog/images/profile.png'%}"  class="rounded-circle" alt="Profile picture" >
+                        {%endif%}
+                    </figure>
+                    <p>{{like_user.first_name}} {{like_user.last_name}}<br>@{{like_user.username}}</p>
+
+                </div>
+                </a>
+                {% empty %}
+                    <p class="blogHead">No one has liked this post yet.</p>
+            {%endfor%}
+        </div>
+        <script>
+                function showLikers(){
+                    document.getElementById("likeSee").classList.toggle("show");
+                }
+                window.onclick = function(event) {
+                    if (!event.target.matches(".dropbtns")) {
+                      var dropdowns = document.getElementsByClassName("likesContainer");
+                      var i;
+                      for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains("show")) {
+                          openDropdown.classList.remove("show");
+                        }
+                      }
+                    }
+                  };
+        </script>
+        {% endif %}
       <section class="commentSection">
           <h3 class="blogHead">Comments..</h3><br>
           {% if user.is_authenticated %}
@@ -84,7 +126,7 @@
               {% for comment in post.comments.all%}
                   <div class="comments">
                     <a style="text-decoration: none;" href="{% url 'show_profile' comment.name.profile.id %}">
-                      <div class="profileGo">                       
+                      <div class="profileGo">
                           <figure class="profileIcon">
                               {% if comment.name.profile.profile_pic %}
                                   <img src="{{comment.name.profile.profile_pic.url}}"  class="rounded-circle" alt="Profile picture" >
@@ -92,25 +134,34 @@
                                   <img src="{%static 'myblog/images/profile.png'%}"  class="rounded-circle" alt="Profile picture">
                               {%endif%}
                           </figure>
-                          <p style="font-size:0.9rem;">{{comment.name.first_name}} {{comment.name.last_name}}<br>@{{comment.name.username}}</p>    
+                          <p style="font-size:0.9rem;">{{comment.name.first_name}} {{comment.name.last_name}}<br>@{{comment.name.username}}</p>
                       </div>
                     </a>
                       <div class="commentBody">
-                          {{comment.body}}                         
+                          {{comment.body}}
                       </div>
                       <p style="text-align: right; font-size:0.8rem;">{{comment.date_added}}</p>
+                      {% if user.id == comment.name.id %}
+                      <div class="text-center"><a href="{% url 'delete_comment' comment.id %}" class="btn btn-sm btn-warning">Delete</a></div>
+                      {%endif%}
                   </div>
               {% endfor %}
           {% endif %}
-      </section> 
+      </section>
     </article>
-
+    <div id="snackbar">Please login to like and comment</div>
     {% if user.is_authenticated %}
     <a href="{% url 'add_post' %}">
     <div class="writeBtn">
         <i class="fa-regular fa-pen-to-square"></i>
     </div>
     </a>
+    {%else%}
+    <script>
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    </script>
     {% endif %}
 {% endblock %}
 

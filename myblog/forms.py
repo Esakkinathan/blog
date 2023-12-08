@@ -1,4 +1,4 @@
-from django import forms 
+from django import forms
 from django.forms import ModelForm
 from .models import Post,Category,Comment
 
@@ -28,8 +28,8 @@ class PostForm(ModelForm):
 class EditForm(ModelForm):
     class Meta:
         model = Post
-        fields = ('title','body')
-        
+        fields = ('title','body','header_image')
+
         widgets = {
             'title' : forms.TextInput(attrs={'class':'form-control bg-dark text-light','placeholder':'Title of Blog'}),
             #'title_tag' : forms.TextInput(attrs={'class':'form-control','placeholder':'Title to be shown in head'}),
@@ -37,19 +37,19 @@ class EditForm(ModelForm):
             'body' : forms.Textarea(attrs={'class':'form-control bg-dark text-light'}),
             #'snippet' : forms.Textarea(attrs={'class':'form-control'})
         }
-        
+
 
 
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ('name','body')
-        
+
         widgets = {
             'name' : forms.TextInput(attrs={'class':'form-control ','placeholder':'Name','id':'comment_name'}),
             'body' : forms.Textarea(attrs={'class':'form-control'}),
         }
-        
+
 class CategoryForm(ModelForm):
     class Meta:
         model = Category
@@ -58,5 +58,5 @@ class CategoryForm(ModelForm):
             'name':'',
         }
         widgets = {
-            'name' : forms.TextInput(attrs={'class':'form-control bg-dark text-light','placeholder':'Category'}),
+            'name' : forms.TextInput(attrs={'class':'form-control bg-dark text-light','placeholder':'Category',"onkeyup":"this.value = this.value.toLowerCase();"}),
         }

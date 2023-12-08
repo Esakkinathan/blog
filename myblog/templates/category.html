@@ -4,7 +4,7 @@
 <br><br><br>
 <h1 class="blogHead">{{cats}}</h1>
 <br>
-   {%if category_posts%}
+   {%if category_posts %}
         <article id="postContainer">
             {% for post in category_posts %}
                 <section class="postContent">
@@ -13,19 +13,19 @@
                             <strong style="color: white;">
                                 {{post.title}}
                             </strong>
-                        </a>                    
+                        </a>
                     </div>
-                    <div class="postContBody"> 
+                    <div class="postContBody">
                         <div class="postcontents">
-                            {{post.body|slice:200|safe}}
+                            {{ post.body|truncatewords_html:30|safe }}
                         </div>
                         <div class="postcatTag">
                             <a href="{% url 'category' post.category|slugify %}">Category: {{post.category}}</a>
                         </div>
                         <div class="postbyTag">
-                            <p>By: {{post.author.first_name}}  {{post.author.last_name}} {{post.post_date}} </p>
+                            <p>{{post.author.first_name}}  {{post.author.last_name}} {{post.post_date}} </p>
                         </div>
-                    </div>    
+                    </div>
                 </section>
             {%endfor%}
         </article>

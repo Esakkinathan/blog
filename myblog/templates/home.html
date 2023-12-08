@@ -9,19 +9,19 @@
                         <strong style="color: white;">
                             {{post.title}}
                         </strong>
-                    </a>                    
+                    </a>
                 </div>
-                <div class="postContBody"> 
+                <div class="postContBody">
                     <div class="postcontents">
-                        {{post.body|slice:200|safe}}
+                        {{ post.body|truncatewords_html:30|safe }}
                     </div>
                     <div class="postcatTag">
                         <a href="{% url 'category' post.category|slugify %}">Category: {{post.category}}</a>
                     </div>
                     <div class="postbyTag">
-                        <p>By: {{post.author.first_name}}  {{post.author.last_name}} {{post.post_date}} </p>
+                        <p>{{post.author.first_name}}  {{post.author.last_name}} {{post.post_date}} </p>
                     </div>
-                </div>    
+                </div>
             </section>
         {%endfor%}
     </article>
@@ -32,6 +32,14 @@
     </div>
     </a>
     {% endif %}
+    <div id="snackbar">Please login to create blog</div>
+    {% if not user.is_authenticated %}
+    <script>
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    </script>
+    {%endif%}
 {% endblock %}
 
 {% comment %}
@@ -40,5 +48,5 @@
     <a href="{% url 'update_post' post.pk %}">(edit)</a>
     <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
 {% endif %}
-{% endif %} 
+{% endif %}
 {% endcomment %}
